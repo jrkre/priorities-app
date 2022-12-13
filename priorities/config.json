@@ -1,0 +1,8 @@
+{
+  "Colors": {
+    "favorite": "blue"
+  },
+  "ConnectionStrings": {
+    "taskDbContext": "Server=(LocalDB)\\MSSQLLocalDB;Database=prioritiesDb;Integrated Security=true;Trusted_Connection=true;"
+  } 
+}

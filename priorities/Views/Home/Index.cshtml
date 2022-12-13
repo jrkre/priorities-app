@@ -1,0 +1,99 @@
+﻿@model IEnumerable<TaskViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <link href="~/css/card.css" />
+    
+</head>
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    <div id="cardthing">
+        <table class="table-bordered table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DueDate)
+                    </th>
+                    <th>
+                        Complete
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                    @foreach (var task in Model)
+                    {
+                        <tr>
+                             <td> <input class="nothing" placeholder="@i"  /></td>
+                             <td name="name">@task.Name</td>
+                             <td name="desc">@task.Description</td>
+                             <td name="duedate">@task.DueDate</td>
+                             <td>
+                                 <button type="button" class="use-task">complete this task</button>
+                             </td>
+                        </tr>
+                        i = i + 1;
+                    }
+                }
+            </tbody>
+
+        </table>
+        <div id="result-div"></div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        $(".use-task").click(function () {
+            var $row = $(this).closest("tr");
+
+            var $name = $row.find("td").eq(1).text();
+            var $desc = $row.find("td").eq(2).text();
+
+            console.log("name: " + $name + " desc: " + $desc);
+
+            var url = "@Url.Action("CompleteTask","Home")";
+
+            var model = { Name: $name, Description: $desc };
+
+            console.log(model);
+            console.log(JSON.stringify(model));
+
+            $.ajax({
+                type: "POST",
+                data: model,
+                url: url,
+                //contentType: "application/json",
+                //dataType: "json",
+                success: function (response){
+                    alert("Response:" + response.Name + response.Description);
+                },
+                failure: function(response){
+                    alert(respnse.responseText);
+                },
+                error: function(response){
+                    alert(respnse.responseText);
+                }
+
+            });
+
+            //$.post(url, model);
+        });
+    </script>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    
+</div>
